@@ -20,14 +20,6 @@ public class BaseScene : MonoBehaviour//모든 씬클래스의 Base
     {
         GameManager.Scene.SetCurrentScene(this);
 
-        //Object obj = GameObject.FindObjectOfType(typeof(EventSystem));
-        //if (obj == null)                            //EventSystem이 없다면 추가함
-        //{
-        //    GameObject eventSystem = GameManager.Resource.Instantiate("UI/EventSystem");
-        //    eventSystem.name = "@EventSystem";
-        //    DontDestroyOnLoad(eventSystem);
-        //}
-
     }
 
     protected virtual void LateInit() { }

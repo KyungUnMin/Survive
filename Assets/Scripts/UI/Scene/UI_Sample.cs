@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class UI_Sample : UIBase
 {
+    /*
+     * UI 사용법 예시코드
+     */
+
     enum Texts//사용할 오브젝트들을 enum으로 선언한다.(주의, 씬에 있는 오브젝트와 enum에 있는 오브젝트 이름이 다르면 안됨)
     {
         testA,

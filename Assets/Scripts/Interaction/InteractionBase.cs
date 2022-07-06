@@ -8,14 +8,11 @@ using UnityEngine;
 
 public abstract class InteractionBase : MonoBehaviour
 {
-    public bool isAct { get; protected set; } = false;
-    protected GameObject player;
 
-    public virtual void Init()
-    {
-        player = GameManager.Scene.GetObjFromDict("Player");
-        
-    }
+    //상호작용 여부를 알리는 변수
+    public bool isAct { get; protected set; } = false;
+
+    public abstract void Init();
 
     public virtual void Connect()
     {

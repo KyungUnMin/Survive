@@ -7,28 +7,36 @@ using UnityEngine.UI;
 
 public abstract class UIBase : MonoBehaviour
 {
-	protected Dictionary<Type, UnityEngine.Object[]> uiDict = new Dictionary<Type, UnityEngine.Object[]>();//연결할 UI들을 담아놓는 Dictionary
+										//<UI Type, ui배열>
+	protected Dictionary<Type, UnityEngine.Object[]> uiDict = new Dictionary<Type, UnityEngine.Object[]>();
 	public abstract void Init();
 
-	protected void Bind<T>(Type type) where T : UnityEngine.Object//UI들을 Dictionary에 저장해두는 함수
+
+	//UI들을 Dictionary에 저장해두는 함수
+	protected void Bind<T>(Type type) where T : UnityEngine.Object
 	{
-		string[] names = Enum.GetNames(type);//enum - > string
-		UnityEngine.Object[] objects = new UnityEngine.Object[names.Length];//enum에 담긴 크기만큼 object배열 생성
-		
+		//enum - > string
+		string[] names = Enum.GetNames(type);
+		UnityEngine.Object[] objects = new UnityEngine.Object[names.Length];
+
+		//배열에 오브젝트 보관
 		for (int i = 0; i < names.Length; i++)
 		{
-			if (typeof(T) == typeof(GameObject))//GameObject타입으로 제네릭을 요청한 경우
-				objects[i] = Util.FindChild(gameObject, names[i], true);//이 클래스를 지닌 오브젝트의 자식을 이름으로 찾아 배열에 저장
+
+			if (typeof(T) == typeof(GameObject))
+				objects[i] = Util.FindChild(gameObject, names[i], true);
 			else
-				objects[i] = Util.FindChild<T>(gameObject, names[i], true);//다른 타입인경우도 마찬가지
+				objects[i] = Util.FindChild<T>(gameObject, names[i], true);
 
 			if (objects[i] == null)
 				Debug.Log($"연결실패({names[i]})");
+
 		}
-		uiDict.Add(typeof(T), objects);//object배열을 Dictionary에 저장
+		uiDict.Add(typeof(T), objects);
 	}
 
-	protected T Get<T>(int idx) where T : UnityEngine.Object//Dictionary에 저장된 UI들을 return하는 함수
+	//Dictionary에 저장된 UI들을 return하는 함수
+	protected T Get<T>(int idx) where T : UnityEngine.Object
 	{
 		UnityEngine.Object[] objects = null;
 		if (uiDict.TryGetValue(typeof(T), out objects) == false)
@@ -37,7 +45,8 @@ public abstract class UIBase : MonoBehaviour
 		return objects[idx] as T;
 	}
 
-	public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)//UI 이벤트처리를 Action을 이용해 등록
+	//UI 이벤트처리를 Action을 이용해 등록
+	public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
 	{
 		UIEventHandler evt = Util.GetOrAddComponent<UIEventHandler>(go);
 
@@ -52,5 +61,7 @@ public abstract class UIBase : MonoBehaviour
 				evt.OnDragHandler += action;
 				break;
 		}
+
 	}
+
 }

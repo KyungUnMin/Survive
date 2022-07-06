@@ -7,14 +7,8 @@ using UnityEngine.SceneManagement;
 public class SceneManagerEx
 {
     private BaseScene pCurScene;
-    public Animation loading { get; private set; }
 
-    public void Init()
-    {
-        loading = GameManager.Resource.Instantiate("UI/Scene/SceneChange").GetComponent<Animation>();
-        GameObject.DontDestroyOnLoad(loading.gameObject);
-    }
-
+    //씬이 시작될때마다 호출됨
     public void SetCurrentScene(BaseScene _pScene)
     {
         this.pCurScene = _pScene; 
@@ -27,6 +21,7 @@ public class SceneManagerEx
         return pCurScene;
     }
 
+    //씬의 Dictionary에 등록하는 함수
     public void AddObj2Dict(string key, GameObject value)
     {
         if(GetCurrentScene().sceneDict.ContainsKey(key))
@@ -38,6 +33,7 @@ public class SceneManagerEx
         GetCurrentScene().sceneDict.Add(key, value);
     }
 
+    //씬의 Dictionary로부터 받아오는 함수
     public GameObject GetObjFromDict(string key)
     {
         GameObject go;
@@ -50,13 +46,18 @@ public class SceneManagerEx
         return go;
     }
 
-    public void LoadScene(Define.Scene type)//다른 씬으로 넘기는 함수(인자는 Define스크립트의 enum값)
+    //다른 씬으로 넘기는 함수(인자는 Define스크립트의 enum값)
+    public void LoadScene(Define.Scene type)
     {
-        GameManager.Clear();//씬이 넘어가기전 초기화
-        SceneManager.LoadScene(GetSceneName(type));//다음 씬 호출
+        //씬이 넘어가기전 초기화
+        GameManager.Clear();
+
+        //다음 씬 호출
+        SceneManager.LoadScene(GetSceneName(type));
     }
 
-    private string GetSceneName(Define.Scene type)//enum -> string
+    //enum -> string
+    private string GetSceneName(Define.Scene type)
     {
         string name = System.Enum.GetName(typeof(Define.Scene), type);
         return name;
@@ -64,6 +65,7 @@ public class SceneManagerEx
 
     public void Clear()
     {
+        //현재 씬도 초기화
         GetCurrentScene().Clear();
     }
 

@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class UIManager
 {
-    public T ShowSceneUI<T>(string name = null) where T : UIBase//UI를 인스턴스하고 UIBase를 상속받은 컴포넌트로 리턴
+    //UI는 이 함수를 통해 Instantiate
+    public T ShowSceneUI<T>(string name = null) where T : UIBase
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
